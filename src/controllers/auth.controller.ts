@@ -4,12 +4,16 @@ import { User } from "../models/user.model";
 import { generateToken } from "../utils/generateToken";
 import mongoose from "mongoose";
 
-const cookieOptions = {
+const isProd = process.env.NODE_ENV === "production";
+
+export const cookieOptions = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
-  sameSite: "lax" as const,
-  maxAge: 7 * 24 * 60 * 60 * 1000,
+  secure: isProd, // only HTTPS in prod
+  sameSite: isProd ? ("none" as const) : ("lax" as const),
+  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  path: "/", // make sure it’s valid everywhere
 };
+
 
 //#region  Register User
 export const registerUser = async (req: Request, res: Response) => {
