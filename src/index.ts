@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.routes";
 import userRoutes from "./routes/user.routes";
+import departmentRoutes from "./routes/department.routes";
 import { requestLogger } from "./middlewares/logger.middleware";
 
 dotenv.config();
@@ -32,6 +33,7 @@ app.use(
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/departments", departmentRoutes)
 
 // Simple route
 app.get("/", (_req: Request, res: Response) => {

@@ -31,3 +31,17 @@ export const isManager = (req: AuthRequest, res: Response, next: NextFunction) =
 
   next();
 };
+
+
+export const isAdminOrHR = (req: AuthRequest, res: Response, next: NextFunction) => {
+  const user = req.user as { role: string }; // assuming set by verifyUser middleware
+
+  if (user?.role === "admin" || user?.role === "hr") {
+    return next();
+  }
+
+  return res.status(403).json({
+    success: false,
+    message: "Access denied — Admin or HR only",
+  });
+};
